@@ -17,7 +17,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
     >
       <Link
         href={productHref}
-        className="relative aspect-[4/5] overflow-hidden bg-white"
+        className="relative block aspect-[4/5] w-full overflow-hidden bg-white"
         aria-label={`View details for ${product.name}`}
       >
         <Image
