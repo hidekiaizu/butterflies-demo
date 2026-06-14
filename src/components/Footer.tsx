@@ -1,19 +1,25 @@
-const footerLinks = ["Instagram", "Contact", "Terms"];
-
 export function Footer() {
   return (
-    <footer className="bg-white px-5 py-8 sm:px-8 lg:px-12">
-      <div className="mx-auto flex max-w-7xl flex-col gap-5 border-t border-black pt-6 text-sm font-black uppercase leading-none tracking-normal text-black sm:flex-row sm:items-center sm:justify-between">
+    <footer className="border-t border-black/10 bg-white">
+      <div className="mx-auto flex max-w-[1800px] flex-col gap-5 px-4 py-8 text-sm font-semibold tracking-normal text-black sm:px-6 md:flex-row md:items-center md:justify-between md:px-8 lg:px-10">
         <p>© 2025 Butterflies.</p>
-        <nav aria-label="Footer links">
-          <ul className="flex flex-wrap gap-x-6 gap-y-3">
-            {footerLinks.map((link) => (
-              <li key={link}>
-                <a href="#" className="hover:underline focus:underline">
-                  {link}
-                </a>
-              </li>
-            ))}
+        <nav aria-label="Footer navigation">
+          <ul className="flex flex-wrap gap-6">
+            <li>
+              <a className="transition-opacity hover:opacity-55" href="https://instagram.com">
+                Instagram
+              </a>
+            </li>
+            <li>
+              <a className="transition-opacity hover:opacity-55" href="mailto:contact@butterflies.example">
+                Contact
+              </a>
+            </li>
+            <li>
+              <a className="transition-opacity hover:opacity-55" href="#">
+                Terms
+              </a>
+            </li>
           </ul>
         </nav>
       </div>

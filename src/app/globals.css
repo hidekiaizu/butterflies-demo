@@ -8,8 +8,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
+  --font-sans: "Helvetica Neue", Arial, ui-sans-serif, system-ui, sans-serif;
 }
 
 * {
@@ -26,15 +25,120 @@ body {
   min-height: 100vh;
   background: #ffffff;
   color: #000000;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Helvetica Neue", Arial, ui-sans-serif, system-ui, sans-serif;
+  text-rendering: geometricPrecision;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+button,
+input {
+  font: inherit;
 }
 
 ::selection {
   background: #000000;
   color: #ffffff;
+}
+
+.image-reveal {
+  animation: image-reveal 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.fade-up {
+  animation: fade-up 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.quiet-action {
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.quiet-action:hover {
+  opacity: 0.58;
+  transform: translateY(-1px);
+}
+
+.quiet-action:active {
+  transform: translateY(0);
+}
+
+.product-card-reveal {
+  animation: fade-up 760ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--reveal-delay, 0ms);
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.product-card-reveal:hover {
+  transform: translateY(-5px);
+}
+
+.product-media {
+  transition:
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 520ms ease;
+}
+
+.product-card-reveal:hover .product-media {
+  transform: scale(1.018);
+}
+
+.detail-reveal {
+  animation: fade-up 820ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.waitlist-reveal {
+  animation: fade-up 780ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 90ms;
+}
+
+@keyframes image-reveal {
+  from {
+    clip-path: inset(0 0 18% 0);
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .image-reveal,
+  .fade-up,
+  .product-card-reveal,
+  .detail-reveal,
+  .waitlist-reveal {
+    animation: none;
+  }
+
+  .quiet-action,
+  .product-card-reveal,
+  .product-media {
+    transition: none;
+  }
+
+  .quiet-action:hover,
+  .product-card-reveal:hover,
+  .product-card-reveal:hover .product-media {
+    transform: none;
+  }
 }

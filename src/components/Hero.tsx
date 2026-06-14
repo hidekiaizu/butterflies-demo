@@ -1,45 +1,39 @@
-import { ProductImage } from "@/components/ProductImage";
+import Image from "next/image";
 
 export function Hero() {
   return (
-    <section
-      aria-labelledby="hero-heading"
-      className="bg-white px-5 pb-20 pt-8 sm:px-8 sm:pb-28 lg:px-12 lg:pt-14"
-    >
-      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
-        <div className="max-w-xl">
-          <p className="mb-5 text-sm font-bold uppercase leading-none tracking-normal text-black">
-            Drop 001
-          </p>
-          <h1
-            id="hero-heading"
-            className="text-6xl font-black leading-[0.9] tracking-normal text-black sm:text-8xl lg:text-9xl"
-          >
-            Butterflies.
-          </h1>
-          <p className="mt-8 text-2xl font-black leading-tight tracking-normal text-black sm:text-4xl">
-            Give Her Butterflies.
-          </p>
-        </div>
-
-        <div className="grid gap-5 sm:grid-cols-[1.25fr_0.75fr] sm:items-end">
-          <ProductImage
+    <section id="top" className="bg-white">
+      <div className="mx-auto grid min-h-[78vh] max-w-[1800px] gap-10 px-4 pb-20 pt-10 sm:px-6 md:grid-cols-[1.15fr_0.85fr] md:items-end md:px-8 md:pb-28 lg:px-10">
+        <div className="image-reveal relative aspect-[4/5] w-full overflow-hidden bg-white md:aspect-[5/4]">
+          <Image
             src="/images/collage.jpg"
-            alt="Butterflies streetwear product collage featuring the drop"
-            className="aspect-[4/5] w-full"
+            alt="Give Her Butterflies tee photographed as the lead product for the drop."
+            fill
             priority
+            sizes="(min-width: 768px) 58vw, 100vw"
+            className="object-contain"
           />
-          <div className="grid grid-cols-2 gap-5 sm:grid-cols-1">
-            <ProductImage
-              src="/images/tee.jpg"
-              alt="Give Her Butterflies tee styled for the product drop"
-              className="aspect-[3/4] w-full"
-            />
-            <ProductImage
-              src="/images/slides.jpg"
-              alt="Butterflies slides styled for the product drop"
-              className="aspect-[3/4] w-full"
-            />
+        </div>
+        <div className="fade-up flex flex-col items-start gap-7 md:pb-10">
+          <p className="text-xs font-semibold uppercase tracking-normal text-black">
+            First drop
+          </p>
+          <h1 className="max-w-[9ch] text-[clamp(3.25rem,10vw,8.5rem)] font-black leading-[0.82] tracking-normal text-black">
+            Give Her Butterflies.
+          </h1>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <a
+              href="#drop"
+              className="quiet-action inline-flex min-h-12 items-center justify-center border border-black px-6 text-sm font-semibold tracking-normal text-black"
+            >
+              View Drop
+            </a>
+            <a
+              href="#waitlist"
+              className="quiet-action inline-flex min-h-12 items-center justify-center border border-black px-6 text-sm font-semibold tracking-normal text-black"
+            >
+              Notify Me
+            </a>
           </div>
         </div>
       </div>

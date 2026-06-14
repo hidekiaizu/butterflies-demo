@@ -1,37 +1,56 @@
-import { ProductImage } from "@/components/ProductImage";
+import Image from "next/image";
+import Link from "next/link";
 import type { Product } from "@/data/products";
 
 type ProductCardProps = {
   product: Product;
+  index: number;
 };
 
-export function ProductCard({ product }: ProductCardProps) {
-  const buttonLabel =
-    product.status === "available" ? "View Product" : "Coming Soon";
+export function ProductCard({ product, index }: ProductCardProps) {
+  const productHref = `/drop/${product.id}`;
 
   return (
-    <article className="group bg-white">
-      <ProductImage
-        src={product.image}
-        alt={product.alt}
-        className="aspect-[4/5] w-full"
-      />
-      <div className="pt-5">
-        <div className="flex items-start justify-between gap-5">
-          <h3 className="text-xl font-black leading-tight tracking-normal text-black">
+    <article
+      className="product-card-reveal group flex h-full flex-col gap-5 bg-white"
+      style={{ "--reveal-delay": `${index * 90}ms` } as React.CSSProperties}
+    >
+      <Link
+        href={productHref}
+        className="relative aspect-[4/5] overflow-hidden bg-white"
+        aria-label={`View details for ${product.name}`}
+      >
+        <Image
+          src={product.image}
+          alt={product.alt}
+          fill
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          className="product-media object-contain"
+        />
+      </Link>
+      <div className="flex flex-1 flex-col gap-4">
+        <div className="space-y-1">
+          <h3 className="text-lg font-bold leading-tight tracking-normal text-black">
             {product.name}
           </h3>
-          <p className="shrink-0 text-sm font-black leading-tight tracking-normal text-black">
-            {product.price}
+          <p className="text-sm font-semibold tracking-normal text-black">
+            {product.priceLabel}
           </p>
         </div>
-        <button
-          type="button"
-          aria-label={`${buttonLabel}: ${product.name}`}
-          className="mt-5 inline-flex h-11 w-full items-center justify-center border border-black bg-white px-5 text-sm font-black uppercase leading-none tracking-normal text-black transition-colors hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 focus:ring-offset-white"
-        >
-          {buttonLabel}
-        </button>
+        <div className="mt-auto flex flex-wrap gap-2">
+          <Link
+            href={productHref}
+            className="quiet-action inline-flex min-h-11 items-center justify-center border border-black px-4 text-xs font-semibold tracking-normal text-black"
+          >
+            View Details
+          </Link>
+          <a
+            href="#waitlist"
+            className="quiet-action inline-flex min-h-11 items-center justify-center border border-black px-4 text-xs font-semibold tracking-normal text-black"
+          >
+            Notify Me
+          </a>
+        </div>
       </div>
     </article>
   );
