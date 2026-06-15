@@ -36,7 +36,7 @@ export const products: Product[] = [
       "A future footwear piece reserved for the full Butterflies drop system.",
     priceLabel: "Price coming soon",
     image: "/images/slides.jpg",
-    alt: "Placeholder product image for Butterflies Slides.",
+    alt: "Black Butterflies slides with white wordmark on a white background.",
     sizes: ["6", "7", "8", "9", "10", "11", "12"],
   },
 ];
