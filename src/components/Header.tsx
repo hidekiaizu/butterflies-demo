@@ -7,12 +7,16 @@ export function Header() {
         <nav aria-label="Main navigation">
           <ul className="flex items-center gap-6 text-sm font-semibold tracking-normal text-black sm:gap-9">
             <li>
-              <Link className="transition-opacity hover:opacity-55" href="/#about">
-                About
+              <Link className="transition-opacity hover:opacity-55" href="/">
+                Home
               </Link>
             </li>
             <li>
-              <Link className="transition-opacity hover:opacity-55" href="/#waitlist" aria-label="Bag placeholder">
+              <Link
+                className="transition-opacity hover:opacity-55"
+                href="#"
+                aria-label="Bag placeholder"
+              >
                 Bag
               </Link>
             </li>
