@@ -9,8 +9,8 @@ type ProductGridProps = {
 export function ProductGrid({ products }: ProductGridProps) {
   return (
     <section id="drop" className="bg-white py-10 sm:py-16">
-      <div className="mx-auto grid max-w-[1800px] grid-cols-[clamp(9rem,37vw,17rem)_minmax(0,1fr)] gap-3 px-3 sm:gap-6 sm:px-6 md:grid-cols-[clamp(10rem,20vw,20rem)_minmax(0,1fr)] md:px-8 lg:px-10">
-        <div className="flex min-h-full justify-center pt-[52vh] md:pt-[30vh]">
+      <div className="mx-auto grid max-w-[1800px] grid-cols-[clamp(9rem,37vw,17rem)_minmax(0,1fr)] gap-3 px-3 pt-[40vh] sm:gap-6 sm:px-6 md:grid-cols-[clamp(10rem,20vw,20rem)_minmax(0,1fr)] md:px-8 md:pt-[30vh] lg:px-10">
+        <div className="flex min-h-full justify-center">
           <Link
             href="/"
             aria-label="Butterflies home"
