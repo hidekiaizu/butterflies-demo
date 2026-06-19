@@ -10,11 +10,11 @@ export function ProductGrid({ products }: ProductGridProps) {
   return (
     <section id="drop" className="bg-white py-10 sm:py-16">
       <div className="mx-auto grid max-w-[1800px] grid-cols-[clamp(9rem,37vw,17rem)_minmax(0,1fr)] gap-3 px-3 sm:gap-6 sm:px-6 md:grid-cols-[clamp(10rem,20vw,20rem)_minmax(0,1fr)] md:px-8 lg:px-10">
-        <div className="flex min-h-full justify-center">
+        <div className="flex min-h-[250vh] justify-center md:min-h-[190vh]">
           <Link
             href="/"
             aria-label="Butterflies home"
-            className="self-start text-[clamp(10rem,20vh,13rem)] font-black leading-[0.78] tracking-normal text-black [writing-mode:vertical-rl]"
+            className="origin-top scale-y-[2.3] self-start text-[clamp(10rem,20vh,13rem)] font-black leading-[0.78] tracking-normal text-black [writing-mode:vertical-rl] md:scale-y-[1.55]"
           >
             Butterflies.
           </Link>
