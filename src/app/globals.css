@@ -88,35 +88,6 @@ input {
   animation: fade-up 820ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.chrome-butterfly-stage {
-  position: relative;
-  perspective: 720px;
-  transform-style: preserve-3d;
-}
-
-.chrome-butterfly-spin {
-  animation: chrome-butterfly-spin 9s linear infinite;
-  filter:
-    drop-shadow(0 2px 1px rgb(255 255 255 / 0.75))
-    drop-shadow(0 9px 10px rgb(0 0 0 / 0.22));
-  transform-origin: 50% 54%;
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-.chrome-butterfly-shadow {
-  position: absolute;
-  right: 17%;
-  bottom: -7%;
-  left: 17%;
-  height: 9%;
-  border-radius: 999px;
-  background: rgb(0 0 0 / 0.24);
-  filter: blur(7px);
-  animation: chrome-butterfly-shadow 9s linear infinite;
-  will-change: transform, opacity;
-}
-
 .waitlist-reveal {
   animation: fade-up 780ms cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: 90ms;
@@ -146,41 +117,6 @@ input {
   }
 }
 
-@keyframes chrome-butterfly-spin {
-  0% {
-    transform: rotateX(-8deg) rotateY(0deg) rotateZ(-2deg);
-  }
-  25% {
-    transform: rotateX(2deg) rotateY(90deg) rotateZ(1deg);
-  }
-  50% {
-    transform: rotateX(8deg) rotateY(180deg) rotateZ(2deg);
-  }
-  75% {
-    transform: rotateX(-2deg) rotateY(270deg) rotateZ(-1deg);
-  }
-  100% {
-    transform: rotateX(-8deg) rotateY(360deg) rotateZ(-2deg);
-  }
-}
-
-@keyframes chrome-butterfly-shadow {
-  0%,
-  100% {
-    opacity: 0.62;
-    transform: scaleX(1) translateY(0);
-  }
-  25%,
-  75% {
-    opacity: 0.28;
-    transform: scaleX(0.28) translateY(3px);
-  }
-  50% {
-    opacity: 0.52;
-    transform: scaleX(0.92) translateY(1px);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -190,9 +126,7 @@ input {
   .fade-up,
   .product-card-reveal,
   .detail-reveal,
-  .waitlist-reveal,
-  .chrome-butterfly-spin,
-  .chrome-butterfly-shadow {
+  .waitlist-reveal {
     animation: none;
   }
 

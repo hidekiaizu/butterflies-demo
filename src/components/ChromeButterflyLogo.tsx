@@ -1,116 +1,227 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import * as THREE from "three";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+
+const extrusion: THREE.ExtrudeGeometryOptions = {
+  depth: 0.34,
+  bevelEnabled: true,
+  bevelSegments: 5,
+  steps: 1,
+  bevelSize: 0.09,
+  bevelThickness: 0.09,
+  curveSegments: 28,
+};
+
+function upperWingShape() {
+  const shape = new THREE.Shape();
+  shape.moveTo(-0.17, 0.18);
+  shape.bezierCurveTo(-0.48, 1.25, -1.73, 2.24, -2.72, 1.96);
+  shape.bezierCurveTo(-3.52, 1.73, -3.48, 0.66, -2.91, 0.08);
+  shape.bezierCurveTo(-2.23, -0.61, -1.04, -0.47, -0.17, 0.18);
+  return shape;
+}
+
+function lowerWingShape() {
+  const shape = new THREE.Shape();
+  shape.moveTo(-0.2, -0.02);
+  shape.bezierCurveTo(-0.97, -0.38, -2.43, -0.64, -2.7, -1.51);
+  shape.bezierCurveTo(-2.98, -2.42, -1.93, -2.71, -1.13, -2.18);
+  shape.bezierCurveTo(-0.48, -1.75, -0.18, -0.76, -0.2, -0.02);
+  return shape;
+}
+
 export function ChromeButterflyLogo() {
+  const mountRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const mount = mountRef.current;
+    if (!mount) return;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(31, 1, 0.1, 100);
+    camera.position.set(0, 0.05, 10.5);
+
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0xffffff, 0);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.35;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    mount.appendChild(renderer.domElement);
+
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const environment = pmrem.fromScene(new RoomEnvironment(), 0.04);
+    scene.environment = environment.texture;
+
+    const chromeFace = new THREE.MeshPhysicalMaterial({
+      color: 0xd9dce2,
+      metalness: 1,
+      roughness: 0.08,
+      clearcoat: 1,
+      clearcoatRoughness: 0.06,
+      envMapIntensity: 2.8,
+    });
+    const chromeEdge = new THREE.MeshPhysicalMaterial({
+      color: 0x747983,
+      metalness: 1,
+      roughness: 0.15,
+      clearcoat: 1,
+      envMapIntensity: 2.3,
+    });
+    const darkChrome = new THREE.MeshPhysicalMaterial({
+      color: 0x969ba5,
+      metalness: 1,
+      roughness: 0.12,
+      clearcoat: 1,
+      envMapIntensity: 2.6,
+    });
+
+    const upperGeometry = new THREE.ExtrudeGeometry(upperWingShape(), extrusion);
+    const lowerGeometry = new THREE.ExtrudeGeometry(lowerWingShape(), extrusion);
+    const butterfly = new THREE.Group();
+    const wings = new THREE.Group();
+
+    const upperLeft = new THREE.Mesh(upperGeometry, [chromeFace, chromeEdge]);
+    const upperRight = new THREE.Mesh(upperGeometry, [chromeFace, chromeEdge]);
+    upperRight.scale.x = -1;
+    upperLeft.rotation.y = -0.1;
+    upperRight.rotation.y = 0.1;
+
+    const lowerLeft = new THREE.Mesh(lowerGeometry, [chromeFace, chromeEdge]);
+    const lowerRight = new THREE.Mesh(lowerGeometry, [chromeFace, chromeEdge]);
+    lowerRight.scale.x = -1;
+    lowerLeft.rotation.y = -0.08;
+    lowerRight.rotation.y = 0.08;
+
+    [upperLeft, upperRight, lowerLeft, lowerRight].forEach((wing) => {
+      wing.position.z = -0.12;
+      wing.castShadow = true;
+      wings.add(wing);
+    });
+
+    const thorax = new THREE.Mesh(new THREE.SphereGeometry(0.36, 40, 28), darkChrome);
+    thorax.scale.set(0.82, 1.22, 0.88);
+    thorax.position.set(0, 0.16, 0.3);
+    thorax.castShadow = true;
+
+    const abdomen = new THREE.Mesh(new THREE.CapsuleGeometry(0.23, 1.38, 12, 30), darkChrome);
+    abdomen.position.set(0, -0.83, 0.25);
+    abdomen.scale.z = 1.18;
+    abdomen.castShadow = true;
+
+    const head = new THREE.Mesh(new THREE.SphereGeometry(0.29, 36, 24), chromeFace);
+    head.position.set(0, 0.72, 0.28);
+    head.castShadow = true;
+
+    const antennaMaterial = new THREE.MeshPhysicalMaterial({
+      color: 0xc7cad0,
+      metalness: 1,
+      roughness: 0.11,
+      envMapIntensity: 2.5,
+    });
+    const makeAntenna = (direction: -1 | 1) => {
+      const curve = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(direction * 0.12, 0.88, 0.25),
+        new THREE.Vector3(direction * 0.3, 1.28, 0.24),
+        new THREE.Vector3(direction * 0.68, 1.58, 0.2),
+        new THREE.Vector3(direction * 0.96, 1.52, 0.16),
+      ]);
+      const antenna = new THREE.Mesh(new THREE.TubeGeometry(curve, 32, 0.035, 10, false), antennaMaterial);
+      antenna.castShadow = true;
+      return antenna;
+    };
+
+    butterfly.add(wings, thorax, abdomen, head, makeAntenna(-1), makeAntenna(1));
+    butterfly.rotation.x = -0.13;
+    butterfly.scale.setScalar(0.92);
+    scene.add(butterfly);
+
+    const keyLight = new THREE.DirectionalLight(0xffffff, 5.5);
+    keyLight.position.set(-4, 5, 8);
+    keyLight.castShadow = true;
+    keyLight.shadow.mapSize.set(1024, 1024);
+    keyLight.shadow.camera.near = 1;
+    keyLight.shadow.camera.far = 20;
+    scene.add(keyLight);
+
+    const rimLight = new THREE.DirectionalLight(0xffffff, 4.2);
+    rimLight.position.set(5, -1, 5);
+    scene.add(rimLight);
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x444444, 1.8));
+
+    const shadow = new THREE.Mesh(
+      new THREE.PlaneGeometry(9, 7),
+      new THREE.ShadowMaterial({ color: 0x000000, opacity: 0.2 }),
+    );
+    shadow.position.z = -1.05;
+    shadow.receiveShadow = true;
+    scene.add(shadow);
+
+    const resize = () => {
+      const { width, height } = mount.getBoundingClientRect();
+      renderer.setSize(width, height, false);
+      camera.aspect = width / Math.max(height, 1);
+      camera.updateProjectionMatrix();
+      renderer.render(scene, camera);
+    };
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(mount);
+    resize();
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const start = performance.now();
+    let frame = 0;
+    let lastRender = 0;
+    const animate = (now: number) => {
+      frame = requestAnimationFrame(animate);
+      if (now - lastRender < 1000 / 30) return;
+      lastRender = now;
+      const elapsed = (now - start) / 1000;
+      butterfly.rotation.y = elapsed * 0.52;
+      butterfly.position.y = Math.sin(elapsed * 1.1) * 0.06;
+      upperLeft.rotation.z = Math.sin(elapsed * 0.85) * 0.018;
+      upperRight.rotation.z = -upperLeft.rotation.z;
+      renderer.render(scene, camera);
+    };
+
+    if (reduceMotion) {
+      butterfly.rotation.y = -0.45;
+      renderer.render(scene, camera);
+    } else {
+      frame = requestAnimationFrame(animate);
+    }
+
+    return () => {
+      cancelAnimationFrame(frame);
+      resizeObserver.disconnect();
+      upperGeometry.dispose();
+      lowerGeometry.dispose();
+      scene.traverse((object) => {
+        if (object instanceof THREE.Mesh && object.geometry !== upperGeometry && object.geometry !== lowerGeometry) {
+          object.geometry.dispose();
+        }
+      });
+      chromeFace.dispose();
+      chromeEdge.dispose();
+      darkChrome.dispose();
+      antennaMaterial.dispose();
+      environment.dispose();
+      pmrem.dispose();
+      renderer.dispose();
+      renderer.domElement.remove();
+    };
+  }, []);
+
   return (
     <div
       className="pointer-events-none absolute left-1/2 top-[14vh] z-10 -translate-x-1/2 md:top-[10vh]"
       aria-hidden="true"
     >
-      <div className="chrome-butterfly-stage">
-        <div className="chrome-butterfly-shadow" />
-        <svg
-          className="chrome-butterfly-spin h-auto w-20 sm:w-24 md:w-28"
-          viewBox="0 0 180 136"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <defs>
-            <linearGradient id="chrome-upper" x1="14" y1="18" x2="83" y2="81" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stopColor="#050505" />
-              <stop offset="0.13" stopColor="#787878" />
-              <stop offset="0.25" stopColor="#FFFFFF" />
-              <stop offset="0.36" stopColor="#A4A4A4" />
-              <stop offset="0.52" stopColor="#181818" />
-              <stop offset="0.68" stopColor="#FDFDFD" />
-              <stop offset="0.82" stopColor="#5C5C5C" />
-              <stop offset="1" stopColor="#DADADA" />
-            </linearGradient>
-            <linearGradient id="chrome-lower" x1="20" y1="72" x2="82" y2="119" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stopColor="#171717" />
-              <stop offset="0.2" stopColor="#E8E8E8" />
-              <stop offset="0.4" stopColor="#6A6A6A" />
-              <stop offset="0.58" stopColor="#FFFFFF" />
-              <stop offset="0.76" stopColor="#292929" />
-              <stop offset="1" stopColor="#BDBDBD" />
-            </linearGradient>
-            <linearGradient id="chrome-body" x1="84" y1="31" x2="98" y2="113" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stopColor="#202020" />
-              <stop offset="0.15" stopColor="#FFFFFF" />
-              <stop offset="0.32" stopColor="#5B5B5B" />
-              <stop offset="0.48" stopColor="#F7F7F7" />
-              <stop offset="0.67" stopColor="#111111" />
-              <stop offset="0.83" stopColor="#D9D9D9" />
-              <stop offset="1" stopColor="#242424" />
-            </linearGradient>
-            <radialGradient id="chrome-head" cx="0" cy="0" r="1" gradientTransform="translate(87 35) rotate(38) scale(15 12)" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stopColor="#FFFFFF" />
-              <stop offset="0.38" stopColor="#A9A9A9" />
-              <stop offset="0.72" stopColor="#303030" />
-              <stop offset="1" stopColor="#050505" />
-            </radialGradient>
-            <linearGradient id="chrome-flare" x1="22" y1="30" x2="77" y2="62" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#FFFFFF" stopOpacity="0" />
-              <stop offset="0.46" stopColor="#FFFFFF" stopOpacity="0.92" />
-              <stop offset="0.58" stopColor="#FFFFFF" stopOpacity="0.18" />
-              <stop offset="1" stopColor="#FFFFFF" stopOpacity="0" />
-            </linearGradient>
-            <filter id="soft-relief" x="-20%" y="-20%" width="140%" height="150%">
-              <feGaussianBlur in="SourceAlpha" stdDeviation="1.4" result="blur" />
-              <feOffset dy="2.5" result="offset" />
-              <feComposite in="offset" in2="SourceAlpha" operator="out" result="edge" />
-              <feColorMatrix in="edge" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0" />
-              <feBlend in="SourceGraphic" mode="normal" />
-            </filter>
-          </defs>
-
-          <g filter="url(#soft-relief)">
-            <g fill="#101010" stroke="#050505" strokeWidth="2.2" strokeLinejoin="round" transform="translate(0 4)">
-              <path d="M85 66C71 31 42 11 20 20C-3 30 6 61 30 73C47 82 66 75 85 70V66Z" />
-              <path d="M84 75C59 72 31 79 27 99C23 120 49 127 68 111C77 103 82 91 87 80L84 75Z" />
-              <g transform="translate(180 0) scale(-1 1)">
-                <path d="M85 66C71 31 42 11 20 20C-3 30 6 61 30 73C47 82 66 75 85 70V66Z" />
-                <path d="M84 75C59 72 31 79 27 99C23 120 49 127 68 111C77 103 82 91 87 80L84 75Z" />
-              </g>
-            </g>
-
-            <g stroke="#080808" strokeWidth="2" strokeLinejoin="round">
-              <path d="M85 63C71 28 42 8 20 17C-3 27 6 58 30 70C47 79 66 72 85 67V63Z" fill="url(#chrome-upper)" />
-              <path d="M84 72C59 69 31 76 27 96C23 117 49 124 68 108C77 100 82 88 87 77L84 72Z" fill="url(#chrome-lower)" />
-              <g transform="translate(180 0) scale(-1 1)">
-                <path d="M85 63C71 28 42 8 20 17C-3 27 6 58 30 70C47 79 66 72 85 67V63Z" fill="url(#chrome-upper)" />
-                <path d="M84 72C59 69 31 76 27 96C23 117 49 124 68 108C77 100 82 88 87 77L84 72Z" fill="url(#chrome-lower)" />
-              </g>
-            </g>
-
-            <g opacity="0.86">
-              <path d="M19 29C38 17 63 35 78 60C55 49 35 46 19 29Z" fill="url(#chrome-flare)" />
-              <path d="M33 94C44 82 63 80 79 78C65 91 53 102 33 94Z" fill="url(#chrome-flare)" opacity="0.65" />
-              <g transform="translate(180 0) scale(-1 1)">
-                <path d="M19 29C38 17 63 35 78 60C55 49 35 46 19 29Z" fill="url(#chrome-flare)" />
-                <path d="M33 94C44 82 63 80 79 78C65 91 53 102 33 94Z" fill="url(#chrome-flare)" opacity="0.65" />
-              </g>
-            </g>
-
-            <g stroke="#111111" strokeWidth="1.3" strokeLinecap="round" opacity="0.62">
-              <path d="M82 64C63 56 42 43 25 27" />
-              <path d="M82 69C58 69 42 68 27 59" />
-              <path d="M84 77C63 84 49 95 38 108" />
-              <g transform="translate(180 0) scale(-1 1)">
-                <path d="M82 64C63 56 42 43 25 27" />
-                <path d="M82 69C58 69 42 68 27 59" />
-                <path d="M84 77C63 84 49 95 38 108" />
-              </g>
-            </g>
-
-            <path d="M90 44C83 51 82 70 86 91C88 104 91 114 94 109C100 94 100 68 96 51C94 44 92 41 90 44Z" fill="url(#chrome-body)" stroke="#080808" strokeWidth="2" />
-            <ellipse cx="91" cy="40" rx="8.5" ry="9.5" fill="url(#chrome-head)" stroke="#080808" strokeWidth="2" />
-            <path d="M87 58H97M86 69H98M86 81H99M88 94H98" stroke="#090909" strokeWidth="1.2" opacity="0.78" />
-            <path d="M87 37C82 26 73 20 64 19" stroke="url(#chrome-body)" strokeWidth="3" strokeLinecap="round" />
-            <path d="M95 37C100 26 109 20 118 19" stroke="url(#chrome-body)" strokeWidth="3" strokeLinecap="round" />
-            <circle cx="64" cy="19" r="3" fill="url(#chrome-head)" stroke="#080808" strokeWidth="1.2" />
-            <circle cx="118" cy="19" r="3" fill="url(#chrome-head)" stroke="#080808" strokeWidth="1.2" />
-            <path d="M87 45C90 42 93 42 96 45" stroke="#FFFFFF" strokeWidth="1.2" strokeLinecap="round" opacity="0.86" />
-          </g>
-        </svg>
-      </div>
+      <div ref={mountRef} className="h-28 w-32 sm:h-32 sm:w-36 md:h-36 md:w-40" />
     </div>
   );
 }
