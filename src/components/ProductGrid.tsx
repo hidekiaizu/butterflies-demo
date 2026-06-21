@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Product } from "@/data/products";
+import { ChromeButterflyLogo } from "./ChromeButterflyLogo";
 import { ProductCard } from "./ProductCard";
 
 type ProductGridProps = {
@@ -8,7 +9,8 @@ type ProductGridProps = {
 
 export function ProductGrid({ products }: ProductGridProps) {
   return (
-    <section id="drop" className="bg-white py-10 sm:py-16">
+    <section id="drop" className="relative bg-white py-10 sm:py-16">
+      <ChromeButterflyLogo />
       <div className="mx-auto grid max-w-[1800px] grid-cols-[clamp(9rem,37vw,17rem)_minmax(0,1fr)] gap-3 px-3 pt-[40vh] sm:gap-6 sm:px-6 md:grid-cols-[clamp(10rem,20vw,20rem)_minmax(0,1fr)] md:px-8 md:pt-[30vh] lg:px-10">
         <div className="flex min-h-full justify-center">
           <Link
