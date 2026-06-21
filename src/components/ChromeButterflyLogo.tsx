@@ -175,7 +175,7 @@ export function ChromeButterflyLogo() {
     let lastRender = 0;
     const animate = (now: number) => {
       frame = requestAnimationFrame(animate);
-      if (now - lastRender < 1000 / 18) return;
+      if (now - lastRender < 1000 / 12) return;
       lastRender = now;
       const elapsed = (now - start) / 1000;
       butterfly.rotation.y = elapsed * 0.42;
