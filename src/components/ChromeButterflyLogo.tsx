@@ -218,10 +218,10 @@ export function ChromeButterflyLogo() {
 
   return (
     <div
-      className="pointer-events-none absolute left-1/2 top-[14vh] z-10 -translate-x-1/2 md:top-[10vh]"
+      className="pointer-events-none absolute inset-x-0 top-[14vh] z-10 flex justify-center md:top-[10vh]"
       aria-hidden="true"
     >
-      <div ref={mountRef} className="h-28 w-32 sm:h-32 sm:w-36 md:h-36 md:w-40" />
+      <div ref={mountRef} className="h-24 w-28 sm:h-28 sm:w-32 md:h-32 md:w-36" />
     </div>
   );
 }
