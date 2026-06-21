@@ -14,7 +14,7 @@ export function ProductGrid({ products }: ProductGridProps) {
           <Link
             href="/"
             aria-label="Butterflies home"
-            className="self-start text-[clamp(10rem,20vh,13rem)] font-black leading-[0.78] tracking-normal text-black [writing-mode:vertical-rl]"
+            className="-mt-6 self-start text-[clamp(10rem,20vh,13rem)] font-black leading-[0.78] tracking-normal text-black [writing-mode:vertical-rl]"
           >
             Butterflies.
           </Link>
