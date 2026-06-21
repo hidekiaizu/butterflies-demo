@@ -141,7 +141,7 @@ export function ChromeButterflyLogo() {
     scene.add(butterfly);
 
     const keyLight = new THREE.DirectionalLight(0xffffff, 5.5);
-    keyLight.position.set(-4, 5, 8);
+    keyLight.position.set(0, 5, 8);
     keyLight.castShadow = true;
     keyLight.shadow.mapSize.set(1024, 1024);
     keyLight.shadow.camera.near = 1;
@@ -218,10 +218,9 @@ export function ChromeButterflyLogo() {
 
   return (
     <div
-      className="pointer-events-none absolute inset-x-0 top-[14vh] z-10 flex justify-center md:top-[10vh]"
+      ref={mountRef}
+      className="pointer-events-none absolute left-[50vw] top-[14vh] z-10 h-24 w-28 -translate-x-1/2 sm:h-28 sm:w-32 md:top-[10vh] md:h-32 md:w-36"
       aria-hidden="true"
-    >
-      <div ref={mountRef} className="h-24 w-28 sm:h-28 sm:w-32 md:h-32 md:w-36" />
-    </div>
+    />
   );
 }
