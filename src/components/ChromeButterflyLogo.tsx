@@ -16,38 +16,35 @@ const extrusion: THREE.ExtrudeGeometryOptions = {
 
 function upperWingShape() {
   const shape = new THREE.Shape();
-  shape.moveTo(-0.16, 0.15);
-  shape.lineTo(-0.58, 1.08);
-  shape.lineTo(-1.17, 1.46);
-  shape.lineTo(-1.34, 2.27);
-  shape.lineTo(-1.78, 1.72);
-  shape.lineTo(-2.62, 2.16);
-  shape.lineTo(-2.5, 1.35);
-  shape.lineTo(-3.4, 1.2);
-  shape.lineTo(-2.79, 0.64);
-  shape.lineTo(-3.11, 0.08);
-  shape.lineTo(-2.03, -0.02);
-  shape.lineTo(-1.42, -0.52);
-  shape.lineTo(-0.62, -0.24);
+  shape.moveTo(-0.16, 0.13);
+  shape.bezierCurveTo(-0.48, 0.96, -0.87, 1.66, -1.57, 1.91);
+  shape.bezierCurveTo(-2.18, 2.14, -2.65, 2.61, -3.1, 2.76);
+  shape.bezierCurveTo(-3.58, 2.91, -3.78, 2.61, -3.45, 2.27);
+  shape.bezierCurveTo(-3.02, 1.82, -2.78, 0.91, -2.15, 0.21);
+  shape.bezierCurveTo(-1.66, -0.33, -0.79, -0.45, -0.16, 0.13);
   shape.closePath();
+
+  const cutout = new THREE.Path();
+  cutout.absellipse(-1.92, 1.04, 0.48, 0.62, 0, Math.PI * 2, false, -0.28);
+  shape.holes.push(cutout);
   return shape;
 }
 
 function lowerWingShape() {
   const shape = new THREE.Shape();
-  shape.moveTo(-0.18, -0.05);
-  shape.lineTo(-0.82, -0.38);
-  shape.lineTo(-1.55, -0.43);
-  shape.lineTo(-2.45, -0.78);
-  shape.lineTo(-2.1, -1.18);
-  shape.lineTo(-2.77, -1.76);
-  shape.lineTo(-1.91, -1.76);
-  shape.lineTo(-1.69, -2.52);
-  shape.lineTo(-1.18, -1.91);
-  shape.lineTo(-0.61, -2.17);
-  shape.lineTo(-0.69, -1.31);
-  shape.lineTo(-0.15, -0.65);
+  shape.moveTo(-0.15, -0.08);
+  shape.bezierCurveTo(-0.72, -0.2, -1.17, -0.42, -1.67, -0.48);
+  shape.bezierCurveTo(-2.45, -0.58, -2.88, -0.83, -3.02, -1.25);
+  shape.bezierCurveTo(-3.18, -1.73, -2.77, -2.09, -2.3, -2.24);
+  shape.bezierCurveTo(-1.99, -2.34, -2.16, -2.93, -2.03, -3.34);
+  shape.bezierCurveTo(-1.91, -3.76, -1.47, -3.7, -1.43, -3.28);
+  shape.bezierCurveTo(-1.39, -2.88, -1.52, -2.56, -1.2, -2.11);
+  shape.bezierCurveTo(-0.73, -1.45, -0.42, -0.55, -0.15, -0.08);
   shape.closePath();
+
+  const cutout = new THREE.Path();
+  cutout.absellipse(-2.14, -1.38, 0.3, 0.38, 0, Math.PI * 2, false, 0.16);
+  shape.holes.push(cutout);
   return shape;
 }
 
@@ -60,7 +57,7 @@ export function ChromeButterflyLogo() {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(31, 1, 0.1, 100);
-    camera.position.set(0, 0.05, 10.5);
+    camera.position.set(0, -0.15, 13);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -96,14 +93,6 @@ export function ChromeButterflyLogo() {
       clearcoat: 1,
       envMapIntensity: 3,
     });
-    const insetChrome = new THREE.MeshPhysicalMaterial({
-      color: 0x4e535c,
-      metalness: 1,
-      roughness: 0.22,
-      clearcoat: 0.8,
-      envMapIntensity: 2.2,
-    });
-
     const upperGeometry = new THREE.ExtrudeGeometry(upperWingShape(), extrusion);
     const lowerGeometry = new THREE.ExtrudeGeometry(lowerWingShape(), extrusion);
     const butterfly = new THREE.Group();
@@ -120,35 +109,6 @@ export function ChromeButterflyLogo() {
     [upperLeft, upperRight, lowerLeft, lowerRight].forEach((wing) => {
       wing.position.z = -0.12;
       wings.add(wing);
-    });
-
-    const makeRidge = (points: THREE.Vector3[], direction: -1 | 1) => {
-      const ridge = new THREE.Mesh(
-        new THREE.TubeGeometry(
-          new THREE.CatmullRomCurve3(points.map((point) => new THREE.Vector3(point.x * direction, point.y, point.z))),
-          18,
-          0.035,
-          8,
-          false,
-        ),
-        insetChrome,
-      );
-      wings.add(ridge);
-    };
-
-    ([-1, 1] as const).forEach((direction) => {
-      makeRidge(
-        [new THREE.Vector3(0.22, 0.18, 0.36), new THREE.Vector3(1.38, 1.1, 0.36), new THREE.Vector3(2.63, 1.38, 0.36)],
-        direction,
-      );
-      makeRidge(
-        [new THREE.Vector3(0.25, 0.04, 0.36), new THREE.Vector3(1.46, 0.32, 0.36), new THREE.Vector3(2.75, 0.58, 0.36)],
-        direction,
-      );
-      makeRidge(
-        [new THREE.Vector3(0.23, -0.18, 0.36), new THREE.Vector3(1.32, -0.88, 0.36), new THREE.Vector3(2.18, -1.55, 0.36)],
-        direction,
-      );
     });
 
     const thorax = new THREE.Mesh(new THREE.SphereGeometry(0.36, 40, 28), darkChrome);
@@ -170,23 +130,21 @@ export function ChromeButterflyLogo() {
     });
     const makeAntenna = (direction: -1 | 1) => {
       const curve = new THREE.CatmullRomCurve3([
-        new THREE.Vector3(direction * 0.12, 0.88, 0.25),
-        new THREE.Vector3(direction * 0.3, 1.28, 0.24),
-        new THREE.Vector3(direction * 0.68, 1.58, 0.2),
-        new THREE.Vector3(direction * 0.96, 1.52, 0.16),
+        new THREE.Vector3(direction * 0.1, 0.88, 0.25),
+        new THREE.Vector3(direction * 0.24, 1.48, 0.23),
+        new THREE.Vector3(direction * 0.48, 2.15, 0.2),
+        new THREE.Vector3(direction * 0.68, 2.67, 0.16),
       ]);
-      const antenna = new THREE.Mesh(new THREE.TubeGeometry(curve, 32, 0.035, 10, false), antennaMaterial);
+      const antenna = new THREE.Group();
+      antenna.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 32, 0.06, 10, false), antennaMaterial));
+      const tip = new THREE.Mesh(new THREE.SphereGeometry(0.14, 20, 14), antennaMaterial);
+      tip.scale.set(1.2, 1.55, 0.9);
+      tip.position.set(direction * 0.68, 2.67, 0.16);
+      antenna.add(tip);
       return antenna;
     };
 
-    const bodyRings = [-0.42, -0.82, -1.22].map((y) => {
-      const ring = new THREE.Mesh(new THREE.TorusGeometry(0.235, 0.027, 8, 28), insetChrome);
-      ring.position.set(0, y, 0.46);
-      ring.rotation.x = Math.PI / 2;
-      return ring;
-    });
-
-    butterfly.add(wings, thorax, abdomen, head, makeAntenna(-1), makeAntenna(1), ...bodyRings);
+    butterfly.add(wings, thorax, abdomen, head, makeAntenna(-1), makeAntenna(1));
     butterfly.rotation.x = -0.13;
     butterfly.scale.setScalar(0.92);
     scene.add(butterfly);
@@ -220,7 +178,7 @@ export function ChromeButterflyLogo() {
       if (now - lastRender < 1000 / 30) return;
       lastRender = now;
       const elapsed = (now - start) / 1000;
-      butterfly.rotation.y = elapsed * 0.52;
+      butterfly.rotation.y = elapsed * 0.32;
       butterfly.position.y = Math.sin(elapsed * 1.1) * 0.06;
       upperLeft.rotation.z = Math.sin(elapsed * 0.85) * 0.018;
       upperRight.rotation.z = -upperLeft.rotation.z;
@@ -247,7 +205,6 @@ export function ChromeButterflyLogo() {
       chromeFace.dispose();
       chromeEdge.dispose();
       darkChrome.dispose();
-      insetChrome.dispose();
       antennaMaterial.dispose();
       environment.dispose();
       pmrem.dispose();
