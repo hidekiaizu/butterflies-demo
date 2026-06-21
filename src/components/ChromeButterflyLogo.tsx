@@ -163,7 +163,7 @@ export function ChromeButterflyLogo() {
 
     const resize = () => {
       const { width, height } = mount.getBoundingClientRect();
-      renderer.setSize(width, height, false);
+      renderer.setSize(width, height);
       camera.aspect = width / Math.max(height, 1);
       camera.updateProjectionMatrix();
       renderer.render(scene, camera);
