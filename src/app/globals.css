@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #000000;
+  --background: #000000;
+  --foreground: #ffffff;
 }
 
 @theme inline {
@@ -16,15 +16,15 @@
 }
 
 html {
-  background: #ffffff;
-  color: #000000;
+  background: #000000;
+  color: #ffffff;
   scroll-behavior: smooth;
 }
 
 body {
   min-height: 100vh;
-  background: #ffffff;
-  color: #000000;
+  background: #000000;
+  color: #ffffff;
   font-family: "Helvetica Neue", Arial, ui-sans-serif, system-ui, sans-serif;
   text-rendering: geometricPrecision;
 }
@@ -61,6 +61,34 @@ input {
 
 .quiet-action:active {
   transform: translateY(0);
+}
+
+.chrome-wordmark {
+  color: transparent;
+  background:
+    linear-gradient(
+      104deg,
+      #41454d 0%,
+      #f4f4f4 9%,
+      #ffffff 16%,
+      #c7c9ce 27%,
+      #5b6069 39%,
+      #f4f4f4 52%,
+      #ffffff 60%,
+      #41454d 71%,
+      #c7c9ce 84%,
+      #f4f4f4 100%
+    );
+  background-size: 240% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  text-shadow:
+    0.012em 0 rgba(255, 255, 255, 0.48),
+    -0.012em 0 rgba(65, 69, 77, 0.82),
+    0 0.018em rgba(199, 201, 206, 0.34),
+    0 -0.018em rgba(0, 0, 0, 0.62);
+  filter: drop-shadow(0 0 0.018em rgba(255, 255, 255, 0.34));
+  animation: chrome-sheen 7s linear infinite;
 }
 
 .product-card-reveal {
@@ -117,6 +145,15 @@ input {
   }
 }
 
+@keyframes chrome-sheen {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 220% 50%;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -126,7 +163,8 @@ input {
   .fade-up,
   .product-card-reveal,
   .detail-reveal,
-  .waitlist-reveal {
+  .waitlist-reveal,
+  .chrome-wordmark {
     animation: none;
   }
 

@@ -12,12 +12,12 @@ export function ProductCard({ product, index }: ProductCardProps) {
 
   return (
     <article
-      className="product-card-reveal group bg-white"
+      className="product-card-reveal group bg-transparent"
       style={{ "--reveal-delay": `${index * 90}ms` } as React.CSSProperties}
     >
       <Link
         href={productHref}
-        className="relative block aspect-[4/5] w-full overflow-hidden bg-white"
+        className="relative block aspect-[4/5] w-full overflow-hidden bg-black"
         aria-label={`View details for ${product.name}`}
       >
         <Image

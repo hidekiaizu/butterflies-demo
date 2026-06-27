@@ -59,7 +59,16 @@ export function ChromeButterflyLogo() {
     const camera = new THREE.PerspectiveCamera(31, 1, 0.1, 100);
     camera.position.set(0, -0.15, 13);
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    const testCanvas = document.createElement("canvas");
+    const hasWebGL = Boolean(testCanvas.getContext("webgl2") ?? testCanvas.getContext("webgl"));
+    if (!hasWebGL) return;
+
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    } catch {
+      return;
+    }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(0xffffff, 0);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
