@@ -111,7 +111,11 @@ export function ChromeWordmark3D() {
       if (now - lastRender < 1000 / 30) return;
       lastRender = now;
       const elapsed = (now - start) / 1000;
-      wordmark.rotation.set(baseRotation.x, baseRotation.y + elapsed * 0.22, baseRotation.z);
+      wordmark.rotation.set(
+        baseRotation.x + Math.sin(elapsed * 0.8) * 0.025,
+        baseRotation.y + Math.sin(elapsed * 0.6) * 0.08,
+        baseRotation.z,
+      );
       renderer.render(scene, camera);
     };
 
