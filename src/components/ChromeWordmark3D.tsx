@@ -71,7 +71,12 @@ export function ChromeWordmark3D() {
     geometry.center();
 
     const wordmark = new THREE.Mesh(geometry, [chromeFace, chromeEdge]);
-    wordmark.rotation.set(-0.08, -0.2, -Math.PI / 2);
+    const baseRotation = {
+      x: -0.08,
+      y: -0.2,
+      z: -Math.PI / 2,
+    };
+    wordmark.rotation.set(baseRotation.x, baseRotation.y, baseRotation.z);
     scene.add(wordmark);
 
     const keyLight = new THREE.DirectionalLight(0xffffff, 5.5);
@@ -97,7 +102,25 @@ export function ChromeWordmark3D() {
     resizeObserver.observe(mount);
     resize();
 
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const start = performance.now();
+    let frame = 0;
+    let lastRender = 0;
+    const animate = (now: number) => {
+      frame = requestAnimationFrame(animate);
+      if (now - lastRender < 1000 / 30) return;
+      lastRender = now;
+      const elapsed = (now - start) / 1000;
+      wordmark.rotation.set(baseRotation.x, baseRotation.y + elapsed * 0.22, baseRotation.z);
+      renderer.render(scene, camera);
+    };
+
+    if (!reduceMotion) {
+      frame = requestAnimationFrame(animate);
+    }
+
     return () => {
+      cancelAnimationFrame(frame);
       resizeObserver.disconnect();
       geometry.dispose();
       chromeFace.dispose();
