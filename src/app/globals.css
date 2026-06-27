@@ -67,36 +67,51 @@ input {
   color: transparent;
   background:
     linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(165, 171, 180, 0.96) 18%,
+      rgba(255, 255, 255, 1) 31%,
+      rgba(67, 72, 82, 0.98) 45%,
+      rgba(218, 222, 228, 1) 58%,
+      rgba(255, 255, 255, 1) 66%,
+      rgba(89, 96, 108, 0.98) 79%,
+      rgba(245, 247, 250, 1) 100%
+    ),
+    linear-gradient(
       102deg,
-      #24272d 0%,
-      #f7f8fa 7%,
-      #ffffff 10%,
-      #9ea3aa 15%,
-      #fefefe 22%,
-      #5c626c 31%,
-      #ffffff 39%,
-      #d6d9de 46%,
-      #ffffff 51%,
-      #343840 61%,
-      #f9fafb 72%,
-      #ffffff 76%,
-      #707780 84%,
-      #f7f8fa 94%,
+      #15181d 0%,
+      #fdfefe 5%,
+      #ffffff 8%,
+      #8b929d 12%,
+      #fbfcfd 18%,
+      #2c3038 27%,
+      #ffffff 34%,
+      #aeb4bd 40%,
+      #ffffff 46%,
+      #20242b 56%,
+      #f7f9fb 64%,
+      #ffffff 68%,
+      #6b737f 75%,
+      #ffffff 84%,
+      #c9ced6 91%,
       #ffffff 100%
     );
-  background-size: 320% 100%;
+  background-blend-mode: screen, normal;
+  background-size: 100% 100%, 360% 100%;
   background-clip: text;
   -webkit-background-clip: text;
   text-shadow:
-    0.01em 0 rgba(255, 255, 255, 0.82),
-    -0.014em 0 rgba(36, 39, 45, 0.95),
-    0 0.02em rgba(255, 255, 255, 0.58),
-    0 -0.02em rgba(0, 0, 0, 0.78),
-    0 0 0.045em rgba(255, 255, 255, 0.2);
+    0.008em 0 rgba(255, 255, 255, 0.9),
+    -0.014em 0 rgba(16, 18, 22, 0.98),
+    0 0.018em rgba(255, 255, 255, 0.72),
+    0 -0.02em rgba(0, 0, 0, 0.92),
+    0.026em 0.012em rgba(68, 74, 84, 0.5),
+    0 0 0.05em rgba(255, 255, 255, 0.26);
   filter:
-    drop-shadow(0 0 0.012em rgba(255, 255, 255, 0.86))
-    drop-shadow(0 0 0.045em rgba(255, 255, 255, 0.28));
-  animation: chrome-sheen 5.5s linear infinite;
+    drop-shadow(0 0 0.01em rgba(255, 255, 255, 0.92))
+    drop-shadow(0 0 0.04em rgba(210, 218, 230, 0.42))
+    drop-shadow(0 0.018em 0 rgba(0, 0, 0, 0.82));
+  animation: chrome-sheen 4.8s linear infinite;
 }
 
 .product-card-reveal {
