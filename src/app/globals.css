@@ -69,49 +69,49 @@ input {
     radial-gradient(
       ellipse at 18% 22%,
       rgba(255, 255, 255, 1) 0%,
-      rgba(206, 235, 255, 0.98) 9%,
-      rgba(30, 75, 111, 0.78) 20%,
+      rgba(244, 244, 244, 0.98) 10%,
+      rgba(65, 69, 77, 0.82) 23%,
       transparent 34%
     ),
     radial-gradient(
       ellipse at 78% 58%,
       rgba(255, 255, 255, 0.98) 0%,
-      rgba(147, 205, 247, 0.9) 12%,
-      rgba(9, 23, 35, 0.86) 27%,
+      rgba(199, 201, 206, 0.92) 12%,
+      rgba(38, 41, 47, 0.9) 28%,
       transparent 42%
     ),
     linear-gradient(
       180deg,
       #ffffff 0%,
-      #bfe2fb 9%,
-      #0f2638 20%,
-      #eaf8ff 31%,
-      #4d86b0 43%,
-      #06111b 54%,
+      #f4f4f4 9%,
+      #747982 20%,
+      #ffffff 31%,
+      #c7c9ce 42%,
+      #41454d 54%,
       #ffffff 63%,
-      #89c7f3 72%,
-      #132c40 84%,
-      #f8fcff 100%
+      #d8dade 72%,
+      #5b6069 84%,
+      #f4f4f4 100%
     ),
     linear-gradient(
       116deg,
-      #02070c 0%,
+      #14171c 0%,
       #ffffff 5%,
-      #dff4ff 8%,
-      #16415f 13%,
-      #07111a 18%,
-      #9fd7ff 23%,
+      #f4f4f4 8%,
+      #6f747d 13%,
+      #20242b 18%,
+      #c7c9ce 23%,
       #ffffff 28%,
-      #1b5a86 35%,
-      #03080d 43%,
+      #8c929c 35%,
+      #171a20 43%,
       #ffffff 49%,
-      #b9e5ff 53%,
-      #265b82 59%,
+      #e8e9ec 53%,
+      #555b65 59%,
       #ffffff 66%,
-      #06101a 73%,
-      #5fa4d6 80%,
+      #242830 73%,
+      #bfc2c8 80%,
       #ffffff 87%,
-      #0d2234 94%,
+      #41454d 94%,
       #ffffff 100%
     );
   background-blend-mode: screen, screen, overlay, normal;
@@ -124,16 +124,15 @@ input {
   -webkit-background-clip: text;
   text-shadow:
     0.008em 0 rgba(255, 255, 255, 0.98),
-    -0.016em 0 rgba(0, 5, 10, 0.98),
-    0 0.018em rgba(190, 228, 255, 0.82),
+    -0.016em 0 rgba(20, 23, 28, 0.98),
+    0 0.018em rgba(244, 244, 244, 0.82),
     0 -0.02em rgba(0, 0, 0, 0.92),
-    0.026em 0.012em rgba(9, 28, 43, 0.62),
-    0 0 0.052em rgba(141, 205, 249, 0.4);
+    0.026em 0.012em rgba(65, 69, 77, 0.62),
+    0 0 0.052em rgba(199, 201, 206, 0.4);
   filter:
     drop-shadow(0 0 0.01em rgba(255, 255, 255, 0.96))
-    drop-shadow(0 0 0.045em rgba(108, 178, 230, 0.56))
+    drop-shadow(0 0 0.045em rgba(199, 201, 206, 0.56))
     drop-shadow(0 0.018em 0 rgba(0, 0, 0, 0.82));
-  animation: chrome-sheen 4.4s linear infinite;
 }
 
 .product-card-reveal {
