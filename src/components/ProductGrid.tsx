@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Product } from "@/data/products";
 import { ChromeButterflyLogo } from "./ChromeButterflyLogo";
+import { ChromeWordmark3D } from "./ChromeWordmark3D";
 import { ProductCard } from "./ProductCard";
 
 type ProductGridProps = {
@@ -16,9 +17,9 @@ export function ProductGrid({ products }: ProductGridProps) {
           <Link
             href="/"
             aria-label="Butterflies home"
-            className="chrome-wordmark -mt-6 self-start text-[clamp(10rem,20vh,13rem)] font-black leading-[0.78] tracking-normal [writing-mode:vertical-rl]"
+            className="-mt-6 block h-[128vh] w-full self-start"
           >
-            Butterflies.
+            <ChromeWordmark3D />
           </Link>
         </div>
         <div className="grid gap-x-5 gap-y-10 sm:grid-cols-2 sm:gap-y-14 lg:grid-cols-3">
