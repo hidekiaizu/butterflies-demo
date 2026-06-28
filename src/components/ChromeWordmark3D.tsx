@@ -93,8 +93,8 @@ export function ChromeWordmark3D() {
       renderer.setSize(width, height);
       camera.aspect = width / Math.max(height, 1);
       camera.updateProjectionMatrix();
-      const scale = Math.min(width / 72, height / 1110);
-      wordmark.scale.setScalar(Math.max(scale, 0.34));
+      const scale = Math.min(width / 115, height / 1850);
+      wordmark.scale.setScalar(Math.max(scale, 0.28));
       renderer.render(scene, camera);
     };
 
