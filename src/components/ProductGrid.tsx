@@ -17,7 +17,7 @@ export function ProductGrid({ products }: ProductGridProps) {
           <Link
             href="/"
             aria-label="Butterflies home"
-            className="-mt-6 block h-[128vh] w-full self-start"
+            className="-mt-36 block h-[128vh] w-full self-start sm:-mt-16 md:-mt-10"
           >
             <ChromeWordmark3D />
           </Link>
